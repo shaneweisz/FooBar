@@ -21,5 +21,9 @@ def solution(x, y):
     return x_i[-1]
 
 
-print(solution([13, 5, 6, 2, 5], [5, 2, 5, 13]))
-print(solution([14, 27, 1, 4, 2, 50, 3, 1], [2, 4, -4, 3, 1, 1, 14, 27, 50]))
+# Test Case 1:
+print(solution([13, 5, 6, 2, 5], [5, 2, 5, 13]) == 6)
+
+# Test Case 2:
+print(solution([14, 27, 1, 4, 2, 50, 3, 1],
+               [2, 4, -4, 3, 1, 1, 14, 27, 50]) == -4)
