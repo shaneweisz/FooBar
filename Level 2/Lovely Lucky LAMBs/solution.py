@@ -1,35 +1,76 @@
 #####################
 ##### Solution ######
 #####################
+
 def solution(total_lambs):
     return stingy(total_lambs) - generous(total_lambs)
 
 
 def generous(total_lambs):
+    '''
+    * Paying LAMBs generously, we get the sequence:
+         1, 2, 4, 8, 16, ...
 
-    i = 1
-    t = 1
-    v = 2
-    while t + v <= total_lambs:
-        t += v
-        v *= 2
-        i += 1
+    * For the nth value in the sequence, we have:
+         S(n) = 2 ^ n - 1
+      where S(n) is the sum of the values of the sequence up to
+      and including the nth value
 
-    return i
+    * We keep adding henchmen until S(n) > total_lambs
+    '''
+
+    n = 1
+
+    while 2 ** n - 1 <= total_lambs:
+        n += 1
+
+    return n - 1
+
+
+def memoize(F):
+    ''' Applies memoization for an efficient recursive Fibonacci implementation '''
+    memo = {}
+
+    def inner(n):
+        if n not in memo:
+            f_n = F(n)
+            memo[n] = f_n
+            return f_n
+        return memo[n]
+
+    return inner
+
+
+@memoize
+def F(n):
+    ''' Returns the nth Fibonacci number '''
+    if n == 1:
+        return 1
+    if n == 2:
+        return 1
+    return F(n-1) + F(n-2)
 
 
 def stingy(total_lambs):
-    a = 1
-    b = 1
+    '''
+    * Paying LAMBs generously, we get the Fibonacci sequence:
+         1, 1, 2, 3, 5, 8, ...
 
-    i = 1
-    t = a
-    while t + b <= total_lambs:
-        t += b
-        a, b = b, a+b
-        i += 1
+    * For the nth value in the sequence, we have:
+         S(n) = F(n + 2) - 1
+       where F(n) returns the nth Fibonacci number
+       and S(n) returns the sum of first N Fibonacci numbers
 
-    return i
+    * We keep adding henchmen until S(n) > total_lambs
+    '''
+
+    n = 1
+
+    while F(n+2) - 1 <= total_lambs:
+        n += 1
+
+    return n - 1
+
 
 #####################
 #### Test Cases #####
