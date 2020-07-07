@@ -48,5 +48,9 @@ def check_test_case(i, inp, exp_out):
     print("PASSED" if out == exp_out else "FAILED")
 
 
-for i, (inp, exp_out) in enumerate(zip(inputs, expected_outputs), start=1):
-    check_test_case(i, inp, exp_out)
+def run_all_tests(inputs, expected_outputs):
+    for i, (inp, exp_out) in enumerate(zip(inputs, expected_outputs), start=1):
+        check_test_case(i, inp, exp_out)
+
+
+run_all_tests(inputs, expected_outputs)
