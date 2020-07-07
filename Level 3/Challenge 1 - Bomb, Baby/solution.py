@@ -4,36 +4,37 @@
 
 def solution(x, y):
     x, y = int(x), int(y)
-
-    # 1. The solution will be symmetric, so ensure x <= y
-    x, y = min(x, y), max(x, y)
+    x, y = min(x, y), max(x, y)  # ensure x <= y
 
     counter = 0
-    while x >= 1 and y > 1:
-        if y % x != 0:
-            n = (y // x)
-        elif x == 1:
-            n = (y // x) - 1
-        else:
-            return "impossible"
-        y -= n * x
-        # swap x and y because now y <= x
-        x, y = y, x
-        counter += n
+    while x > 1:
+        reduce_factor = y // x
+        y -= reduce_factor * x  # repeatedly subtract x from y until y <= x
+        x, y = y, x  # swap x and y because now y <= x
+        counter += reduce_factor
 
-    possible = x == 1 and y == 1
+    if x == 1:
+        counter += y - 1
+        return str(counter)
 
-    return str(counter) if possible else "impossible"
+    return "impossible"  # since x < 1
 
 #####################
 #### Test Cases #####
 #####################
 
 
-n = 10000000000000000000
-inputs = [('4', '7'), ('2', '1')] + [(str(n), '1')] + \
-    [('1', '1')] + [('42', '42')]
-expected_outputs = ["4", "1"] + [str(n - 1)] + ['0'] + ["impossible"]
+inputs = [('4', '7'),
+          ('2', '1'),
+          ('1000000000', '1'),
+          ('1', '1'),
+          ('42', '42'), ]
+
+expected_outputs = ["4",
+                    "1",
+                    str(1000000000 - 1),
+                    '0',
+                    "impossible", ]
 
 
 def check_test_case(i, inp, exp_out):
