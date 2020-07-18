@@ -3,17 +3,19 @@
 #####################
 
 def solution(times, times_limit):
-    # Your code here
+    shortest_paths = floyd(times)
     pass
 
 
-class Configuration:
-    pass
-
-
-class State:
-    def __init__(self, grid, current_time_taken, times_limit):
-        pass
+def floyd(times):
+    shortest_paths = times.copy()
+    n = len(times)
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                shortest_paths[i][j] = min(shortest_paths[i][j],
+                                           shortest_paths[i][k] + shortest_paths[k][j])
+    return shortest_paths
 
 #####################
 #### Test Cases #####
@@ -50,7 +52,9 @@ def main():
 
     expected_outputs = [[1, 2], [0, 1]]
 
-    run_all_tests(inputs, expected_outputs)
+    # run_all_tests(inputs, expected_outputs)
+
+    print(floyd(inputs[0][0]))
 
 
 if __name__ == '__main__':
