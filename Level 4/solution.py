@@ -4,24 +4,16 @@
 
 def solution(times, times_limit):
     # Your code here
-    N = len(times)
-    nodes = list(range(N))[1:]
-    return solve(times, nodes, curr_node=0, time_count=0)
+    pass
 
 
-sols = []
+class Configuration:
+    pass
 
 
-def solve(times, nodes, curr_node, time_count):
-    if len(nodes) == 1:
-        return sols
-    # print(curr_node, end="")
-    print(nodes)
-    for i, node in enumerate(nodes):
-        new_nodes = nodes.copy()
-        new_nodes.remove(node)
-        solve(times, new_nodes, node, time_count)
-        # print()
+class State:
+    def __init__(self, grid, current_time_taken, times_limit):
+        pass
 
 #####################
 #### Test Cases #####
