@@ -7,6 +7,16 @@ def solution(times, times_limit):
     pass
 
 
+def time_to_collect(bunnies_list, shortest_paths):
+    first_bunny = bunnies_list[0]
+    s = shortest_paths[0][first_bunny]
+    for a, b in zip(bunnies_list, bunnies_list[1:]):
+        s += shortest_paths[a][b]
+    last_bunny = bunnies_list[-1]
+    s += shortest_paths[last_bunny][-1]
+    return s
+
+
 def floyd(times):
     shortest_paths = times.copy()
     n = len(times)
@@ -54,7 +64,12 @@ def main():
 
     # run_all_tests(inputs, expected_outputs)
 
-    print(floyd(inputs[0][0]))
+    shortest_paths = floyd(inputs[0][0])
+
+    print(shortest_paths)
+
+    bunnies_list = [2, 3]
+    print(time_to_collect(bunnies_list, shortest_paths))
 
 
 if __name__ == '__main__':
