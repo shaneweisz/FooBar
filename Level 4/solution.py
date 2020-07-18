@@ -2,12 +2,38 @@
 ##### Solution ######
 #####################
 
+from itertools import permutations
+
+
 def solution(times, times_limit):
     shortest_paths = floyd(times)
-    pass
+    n = len(times)
+
+    # DETECT NEGATIVE CYCLES
+    for i in range(n):
+        if shortest_paths[i][i] != 0:
+            # Then there is a negative cycle
+            return list(range(n-2))
+
+    bunnies = range(1, n-1)
+    answer = []
+    max_bunnies = 0
+    for i in range(1, len(bunnies)+1):
+        for p in permutations(bunnies, i):
+            time = time_to_collect(p, shortest_paths)
+            # print(p, time)
+            if time <= times_limit:
+                if i > max_bunnies:
+                    max_bunnies = i
+                    answer = sorted(p)
+
+    return [x - 1 for x in answer]  # change bunny 1 to index 0 etc
 
 
 def time_to_collect(bunnies_list, shortest_paths):
+    """ Returns the amount of time taken to collect the bunnies in
+        `bunnies_list` in that order
+    """
     first_bunny = bunnies_list[0]
     s = shortest_paths[0][first_bunny]
     for a, b in zip(bunnies_list, bunnies_list[1:]):
@@ -18,7 +44,7 @@ def time_to_collect(bunnies_list, shortest_paths):
 
 
 def floyd(times):
-    shortest_paths = times.copy()
+    shortest_paths = list(times)
     n = len(times)
     for k in range(n):
         for i in range(n):
@@ -62,14 +88,7 @@ def main():
 
     expected_outputs = [[1, 2], [0, 1]]
 
-    # run_all_tests(inputs, expected_outputs)
-
-    shortest_paths = floyd(inputs[0][0])
-
-    print(shortest_paths)
-
-    bunnies_list = [2, 3]
-    print(time_to_collect(bunnies_list, shortest_paths))
+    run_all_tests(inputs, expected_outputs)
 
 
 if __name__ == '__main__':
