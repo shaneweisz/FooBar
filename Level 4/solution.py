@@ -31,18 +31,19 @@ def solution(times, times_limit):
     last_bunny = num_vertices - 2
     bunnies = range(first_bunny, last_bunny + 1)
 
-    answer = []
+    best_set = []
     max_bunnies = 0
-    for perm_size in range(1, len(bunnies)+1):
+    for perm_size in range(1, len(bunnies) + 1):
         for bunnies_perm in permutations(bunnies, perm_size):
             time_taken = least_time_to_collect(bunnies_perm, shortest_paths)
-
             if time_taken <= times_limit and perm_size > max_bunnies:
                 max_bunnies = perm_size
-                answer = sorted(bunnies_perm)
+                best_set = sorted(bunnies_perm)
 
-    # Adjustment for vertex i corresponding to bunny i - 1
-    return [x - 1 for x in answer]  # change bunny 1 to index 0 etc
+    # 4. Adjustment for vertex i corresponding to bunny i - 1
+    best_set = [i - 1 for i in best_set]
+
+    return best_set
 
 
 def floyd_warshall(times):
@@ -68,10 +69,7 @@ def is_negative_cycle(shortest_paths):
     that takes negative time, else returns False.
     """
     n = len(shortest_paths)
-    for i in range(n):
-        if shortest_paths[i][i] < 0:  # Then there is a negative cycle
-            return True
-    return False
+    return any([shortest_paths[i][i] < 0 for i in range(n)])
 
 
 def least_time_to_collect(bunnies, shortest_paths):
